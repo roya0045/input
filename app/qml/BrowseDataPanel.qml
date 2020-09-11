@@ -46,17 +46,16 @@ Item {
     else clearStackAndClose()
   }
 
-  function loadFeaturesFromLayerIndex( index ) {
-    let modelIndex = __browseDataLayersModel.index( index, 0 )
-    let layer = __browseDataLayersModel.data( modelIndex, LayersModel.VectorLayerRole )
+  function loadFeaturesFromLayerIndex( layerId ) {
+    let layer = __browseDataLayersModel.layerFromLayerId( layerId )
 
     selectedLayer = layer
   }
 
-  function pushFeaturesPanelWithParams( index ) {
-    let modelIndex = __browseDataLayersModel.index( index, 0 )
-    let hasGeometry = __browseDataLayersModel.data( modelIndex, LayersModel.HasGeometryRole )
-    let layerName = __browseDataLayersModel.data( modelIndex, LayersModel.LayerNameRole )
+  function pushFeaturesPanelWithParams( layerId ) {
+    let modelIndex = __browseDataLayersModel.indexFromLayerId( layerId )
+    let hasGeometry = __browseDataLayersModel.getData( modelIndex, LayersModel.HasGeometryRole )
+    let layerName = __browseDataLayersModel.getData( modelIndex, LayersModel.LayerNameRole )
     let featuresCount = __featuresModel.featuresCount
     let featuresLimit = __featuresModel.featuresLimit
 
@@ -97,8 +96,8 @@ Item {
     BrowseDataLayersPanel {
       onBackButtonClicked: popOnePageOrClose()
       onLayerClicked: {
-        loadFeaturesFromLayerIndex( index )
-        pushFeaturesPanelWithParams( index )
+        loadFeaturesFromLayerIndex( layerId )
+        pushFeaturesPanelWithParams( layerId )
       }
     }
   }
